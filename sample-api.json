@@ -1,62 +1,87 @@
 {
-    "resources":[
+  "resources":[
+    {
+      "name" : "User",
+      "package": "com.kzone.controllers.dto",
+      "attributes": [
         {
-            "name" : "User",
-            "attributes": [
-                {
-                    "name": "firstName",
-                    "type": "String"
-                }
-            ]
+          "name": "firstName",
+          "type": "String"
+        },
+        {
+          "name": "lastName",
+          "type": "String"
+        },
+        {
+          "name": "age",
+          "type": "Integer"
         }
-    ],
-    "user": {
-        "package":"com.kzone.controllers",
-        "controller": "UserController",
-        "apis": [
-            {
-                "http_method" : "GET",
-                "uri": "",
-                "method": "getUsers",
-                "return_list": "User"
-            },
-            {
-                "http_method" : "GET",
-                "uri": "${id}",
-                "method": "getUsersById",
-                "return": "User",
-                "path_variables" : [
-                    {
-                        "name":"id",
-                        "type": "String"
-                    }
-                ]
-            },
-            {
-                "http_method" : "POST",
-                "uri": "",
-                "method": "saveUser",
-                "body" : "User",
-                "return": "User"
-            },
-            {
-                "http_method" : "PUT",
-                "uri": "",
-                "method": "updateUser",
-                "body" : "User",
-                "return": "User"
-            },
-            {
-                "http_method" : "DELETE",
-                "uri": "${id}",
-                "method": "deleteUser",
-                "path_variables" : [
-                    {
-                        "name":"id",
-                        "type": "String"
-                    }
-                ]
-            }
-        ]
+      ]
     }
+  ],
+  "root_apis": [
+    {
+      "name": "user",
+      "package":"com.kzone.controllers",
+      "controller": "UserController",
+      "apis": [
+        {
+          "http_method" : "GET",
+          "uri": "",
+          "method": "getUsers",
+          "response_body": "LIST:User"
+        },
+        {
+          "http_method" : "GET",
+          "uri": "{id}",
+          "method": "getUsersById",
+          "response_body": "User",
+          "path_variables" : [
+            {
+              "name":"id",
+              "type": "String"
+            }
+          ]
+        },
+        {
+          "http_method" : "POST",
+          "uri": "",
+          "method": "saveUser",
+          "request_body" : "User",
+          "response_body": "User"
+        },
+        {
+          "http_method" : "PUT",
+          "uri": "",
+          "method": "updateUser",
+          "request_body" : "User",
+          "response_body": "User"
+        },
+        {
+          "http_method" : "DELETE",
+          "uri": "{id}",
+          "method": "deleteUser",
+          "path_variables" : [
+            {
+              "name":"id",
+              "type": "String"
+            }
+          ]
+        },
+        {
+          "http_method" : "GET",
+          "uri": "search",
+          "method": "searchUsers",
+          "response_body": "LIST:User",
+          "request_params" : [
+            {
+              "name": "firstName",
+              "type": "String"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
 }
