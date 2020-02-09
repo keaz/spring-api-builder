@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"attributes"})
-public class Resource {
+public class Resource extends ApiObject{
 
     @JsonProperty("package")
     private String packageName;

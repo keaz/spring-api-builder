@@ -4,22 +4,17 @@ import com.keaz.tool.apibuilder.apiobject.*;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.Set;
 
-public class ControllerCreator {
+public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
 
 
-    public void create(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
+    public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
 
         String controller = rootApi.getController();
-        File javaFile = new File(resourcePackage, controller + ".java");
 
-        topWriter.writeln("package " + rootApi.getPackageName() + ";");
-        topWriter.writeln("");
-
+        createImports(topWriter,rootApi.getPackageName());
         createClassDefinition(topWriter,rootApi.getName(),controller);
 
         PicoWriter methodWriter = topWriter.createDeferredWriter();
@@ -27,32 +22,25 @@ public class ControllerCreator {
 
         for (Api api : apis) {
             buildMethodAnnotations(methodWriter,api.getHttpMethod(),api.getUri());
-            createMethodName(methodWriter,api.getMethod(),api.getRequestBody(),api.getResponseBody(),api.getPathVariables(),api.getRequestParams());
-            createMethodBody(methodWriter);
+            createMethod(methodWriter,api.getMethod(),api.getRequestBody(),api.getResponseBody(),api.getPathVariables(),api.getRequestParams());
         }
 
-        topWriter.writeln("");
-        topWriter.writeln_l("}");
+        closeClass(topWriter);
 
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(javaFile);
-            fileWriter.write(topWriter.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(!Objects.isNull(fileWriter)){
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        writeToFile(controller,resourcePackage,topWriter.toString() );
     }
 
-    private void createMethodBody(PicoWriter methodWriter){
-        methodWriter.writeln_l("}");
+
+    private void createImports(PicoWriter topWriter, String packageName){
+        topWriter.writeln("package " + packageName + ";");
+        topWriter.writeln("");
+
+        topWriter.writeln("import org.springframework.beans.factory.annotation.Autowired;");
+        topWriter.writeln("import org.springframework.http.ResponseEntity;");
+        topWriter.writeln("import org.springframework.web.bind.annotation.*;");
+
+        topWriter.writeln("import java.util.List;");
+        topWriter.writeln("");
     }
 
     private void createClassDefinition(PicoWriter topWriter, String name, String controller){
@@ -62,7 +50,7 @@ public class ControllerCreator {
         topWriter.writeln("");
     }
 
-    private void createMethodName(PicoWriter methodWriter, String method, String requestBody, String responseBody, Set<PathVariable> pathVariables, Set<RequestParam> requestParams){
+    private void createMethod(PicoWriter methodWriter, String method, String requestBody, String responseBody, Set<PathVariable> pathVariables, Set<RequestParam> requestParams){
 
         StringBuilder methodBuilder = new StringBuilder("public ");
         if(Objects.isNull(responseBody)){
@@ -82,8 +70,8 @@ public class ControllerCreator {
 
         methodBuilder.append("){");
         methodWriter.writeln_r(methodBuilder.toString());
+        methodWriter.writeln_l("}");
     }
-
 
     private void createAdditionalParam(StringBuilder methodBuilder, Set<? extends Param> params){
         if(!Objects.isNull(params) && !params.isEmpty()){

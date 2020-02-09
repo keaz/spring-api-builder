@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keaz.tool.apibuilder.JsonFileReader;
 import com.keaz.tool.apibuilder.OutputGenerator;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
-import com.keaz.tool.apibuilder.classgenerator.ControllerCreator;
-import com.keaz.tool.apibuilder.classgenerator.ResourceCreator;
+import com.keaz.tool.apibuilder.classgenerator.ControllerGenerator;
+import com.keaz.tool.apibuilder.classgenerator.ResourceGenerator;
 
 import java.io.File;
 
@@ -36,7 +36,7 @@ public class App
         }
 
         ApiDefinition apiDefinition = new JsonFileReader(new ObjectMapper()).readJson(jsonFile);
-        OutputGenerator outputGenerator = new OutputGenerator(new File(out), apiDefinition,new ResourceCreator(), new ControllerCreator());
+        OutputGenerator outputGenerator = new OutputGenerator(new File(out), apiDefinition,new ResourceGenerator(), new ControllerGenerator());
         outputGenerator.generate();
     }
 

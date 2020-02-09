@@ -1,32 +1,32 @@
 package com.keaz.tool.apibuilder;
 
-import com.keaz.tool.apibuilder.apiobject.Api;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
+import com.keaz.tool.apibuilder.apiobject.ApiObject;
 import com.keaz.tool.apibuilder.apiobject.Resource;
 import com.keaz.tool.apibuilder.apiobject.RootApi;
-import com.keaz.tool.apibuilder.classgenerator.ControllerCreator;
-import com.keaz.tool.apibuilder.classgenerator.ResourceCreator;
+import com.keaz.tool.apibuilder.classgenerator.ClassGenerator;
+import com.keaz.tool.apibuilder.classgenerator.ControllerGenerator;
+import com.keaz.tool.apibuilder.classgenerator.ResourceGenerator;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class OutputGenerator {
 
     private final File outFolder;
     private final ApiDefinition apiDefinition;
-    private final ResourceCreator resourceCreator;
-    private final ControllerCreator controllerCreator;
+    private final ClassGenerator resourceGenerator;
+    private final ClassGenerator controllerGenerator;
 
-    public OutputGenerator(File outFolder, ApiDefinition apiDefinition, ResourceCreator resourceCreator,ControllerCreator controllerCreator) {
+    public OutputGenerator(File outFolder, ApiDefinition apiDefinition, ResourceGenerator resourceGenerator, ControllerGenerator controllerGenerator) {
         this.outFolder = outFolder;
         this.apiDefinition = apiDefinition;
-        this.resourceCreator = resourceCreator;
-        this.controllerCreator = controllerCreator;
+        this.resourceGenerator = resourceGenerator;
+        this.controllerGenerator = controllerGenerator;
     }
 
     public void generate(){
@@ -43,23 +43,18 @@ public class OutputGenerator {
         }
         outFolder.mkdirs();
 
-        createResources(apiDefinition.getResources());
-        createApis(apiDefinition.getRootApis());
+        createClasses(resourceGenerator,apiDefinition.getResources());
+        createClasses(controllerGenerator,apiDefinition.getRootApis());
     }
 
-    private void createResources(List<Resource> resources){
-        for (Resource resource : resources) {
-            File resourcePackage = createPackage(resource.getPackageName());
-            resourceCreator.create(resourcePackage,resource,new PicoWriter());
+
+    private void createClasses(ClassGenerator classGenerator,Collection<? extends ApiObject> apiObjects){
+        for (ApiObject apiObject : apiObjects) {
+            File resourcePackage = createPackage(apiObject.getPackageName());
+            classGenerator.generate(resourcePackage,apiObject,new PicoWriter());
         }
     }
 
-    private void createApis(Set<RootApi> apis){
-        for (RootApi api : apis) {
-            File resourcePackage = createPackage(api.getPackageName());
-            controllerCreator.create(resourcePackage,api,new PicoWriter());
-        }
-    }
 
     private File createPackage(String packageName) {
         File resourcePackage = new File(outFolder, packageName.replace('.', File.separatorChar));
