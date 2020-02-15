@@ -1,6 +1,7 @@
-package com.keaz.tool.apibuilder.classgenerator;
+package com.keaz.tool.apibuilder.classgenerator.spring;
 
 import com.keaz.tool.apibuilder.apiobject.*;
+import com.keaz.tool.apibuilder.classgenerator.AbstractClassGenerator;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
@@ -9,6 +10,22 @@ import java.util.Set;
 
 public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
 
+    private String [] returnColletion = {"LIST","SET"};
+
+    enum ReturnValues {
+        LIST("List"), SET("Set");
+
+        private String name;
+
+        ReturnValues(String name){
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
 
@@ -39,7 +56,7 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         topWriter.writeln("import org.springframework.http.ResponseEntity;");
         topWriter.writeln("import org.springframework.web.bind.annotation.*;");
 
-        topWriter.writeln("import java.util.List;");
+        topWriter.writeln("import java.util.*;");
         topWriter.writeln("");
     }
 
@@ -56,13 +73,19 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         if(Objects.isNull(responseBody)){
             methodBuilder.append("void ").append(method);
         }else{
-            methodBuilder.append(responseBody+ " ").append(method);
+            if(responseBody.indexOf(':') > 0){
+                String [] splits = responseBody.split(":");
+                ReturnValues returnValue = ReturnValues.valueOf(splits[0]);
+                methodBuilder.append(returnValue).append("<").append(splits[1]).append("> ").append(method);
+            }else {
+                methodBuilder.append(responseBody + " ").append(method);
+            }
         }
 
         if(Objects.isNull(requestBody)){
             methodBuilder.append("(");
         }else{
-            methodBuilder.append("("+requestBody +" "+requestBody + " ");
+            methodBuilder.append("("+requestBody +" "+requestBody.substring(0, 1).toLowerCase() + requestBody.substring(1) + " ");
         }
 
         createAdditionalParam(methodBuilder,pathVariables);

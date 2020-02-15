@@ -2,18 +2,14 @@ package com.keaz.tool.apibuilder;
 
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
 import com.keaz.tool.apibuilder.apiobject.ApiObject;
-import com.keaz.tool.apibuilder.apiobject.Resource;
-import com.keaz.tool.apibuilder.apiobject.RootApi;
 import com.keaz.tool.apibuilder.classgenerator.ClassGenerator;
-import com.keaz.tool.apibuilder.classgenerator.ControllerGenerator;
+import com.keaz.tool.apibuilder.classgenerator.spring.ControllerGenerator;
 import com.keaz.tool.apibuilder.classgenerator.ResourceGenerator;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class OutputGenerator {
 

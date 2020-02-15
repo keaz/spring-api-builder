@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keaz.tool.apibuilder.JsonFileReader;
 import com.keaz.tool.apibuilder.OutputGenerator;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
-import com.keaz.tool.apibuilder.classgenerator.ControllerGenerator;
+import com.keaz.tool.apibuilder.classgenerator.spring.ControllerGenerator;
 import com.keaz.tool.apibuilder.classgenerator.ResourceGenerator;
 
 import java.io.File;
