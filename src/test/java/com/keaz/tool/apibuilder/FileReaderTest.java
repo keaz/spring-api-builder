@@ -17,7 +17,7 @@ import java.io.IOException;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JsonFileReaderTest {
+public class FileReaderTest {
 
 
     @Mock
@@ -25,7 +25,7 @@ public class JsonFileReaderTest {
 
 
     @InjectMocks
-    private JsonFileReader jsonFileReader;
+    private FileReader fileReader;
 
     @Before
     public void beforeTests() {
@@ -39,7 +39,7 @@ public class JsonFileReaderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testReadJsonJsonFileNull() {
-        jsonFileReader.readJson(null);
+        fileReader.readFile(null);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class JsonFileReaderTest {
         String jsonFile = "{}";
         ApiDefinition expected = new ApiDefinition();
         when(objectMapper.readValue(new File(jsonFile), ApiDefinition.class)).thenReturn(expected);
-        ApiDefinition actual = jsonFileReader.readJson(jsonFile);
+        ApiDefinition actual = fileReader.readFile(jsonFile);
 
         Assert.assertEquals(expected, actual);
     }

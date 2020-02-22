@@ -7,16 +7,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class JsonFileReader {
+public class FileReader {
 
 
     private final ObjectMapper  objectMapper;
 
-    public JsonFileReader(ObjectMapper objectMapper) {
+    public FileReader(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public ApiDefinition readJson(String jsonFile){
+    public ApiDefinition readFile(String jsonFile){
         if(Objects.isNull(jsonFile) || jsonFile.isBlank()){
             throw new IllegalArgumentException("Json file cannot be null or empty");
         }

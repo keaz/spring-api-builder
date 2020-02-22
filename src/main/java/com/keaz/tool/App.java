@@ -1,7 +1,8 @@
 package com.keaz.tool;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keaz.tool.apibuilder.JsonFileReader;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.keaz.tool.apibuilder.FileReader;
 import com.keaz.tool.apibuilder.OutputGenerator;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
 import com.keaz.tool.apibuilder.classgenerator.spring.ControllerGenerator;
@@ -35,7 +36,7 @@ public class App
             }
         }
 
-        ApiDefinition apiDefinition = new JsonFileReader(new ObjectMapper()).readJson(jsonFile);
+        ApiDefinition apiDefinition = new FileReader(new ObjectMapper(new YAMLFactory())).readFile(jsonFile);
         OutputGenerator outputGenerator = new OutputGenerator(new File(out), apiDefinition,new ResourceGenerator(), new ControllerGenerator());
         outputGenerator.generate();
     }

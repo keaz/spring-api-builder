@@ -26,5 +26,11 @@ public class Api {
     private Set<RequestParam> requestParams;
 
 
+    private Method post;
+    private Method put;
+    private Method patch;
+    private Method get;
+    private Method delete;
+
 
 }
