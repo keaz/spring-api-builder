@@ -7,6 +7,7 @@ import com.keaz.tool.apibuilder.OutputGenerator;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
 import com.keaz.tool.apibuilder.classgenerator.spring.ControllerGenerator;
 import com.keaz.tool.apibuilder.classgenerator.ResourceGenerator;
+import com.keaz.tool.apibuilder.language.JavaTypes;
 
 import java.io.File;
 
@@ -37,7 +38,11 @@ public class App
         }
 
         ApiDefinition apiDefinition = new FileReader(new ObjectMapper(new YAMLFactory())).readFile(jsonFile);
-        OutputGenerator outputGenerator = new OutputGenerator(new File(out), apiDefinition,new ResourceGenerator(), new ControllerGenerator());
+        System.out.println(apiDefinition);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JavaTypes javaTypes = new JavaTypes(objectMapper);
+        javaTypes.init();
+        OutputGenerator outputGenerator = new OutputGenerator(new File(out), apiDefinition,new ResourceGenerator(javaTypes), new ControllerGenerator(javaTypes));
         outputGenerator.generate();
     }
 

@@ -1,0 +1,22 @@
+{
+  "integer": {
+    "": "Integer",
+    "int32": "Integer",
+    "int64": "Long"
+  },
+  "number": {
+    "": "Double",
+    "float": "Float",
+    "double": "Double"
+  },
+  "string": {
+    "": "String",
+    "date-time": "Date"
+  },
+  "boolean": {
+    "": "Boolean"
+  },
+  "$ref": {
+
+  }
+}

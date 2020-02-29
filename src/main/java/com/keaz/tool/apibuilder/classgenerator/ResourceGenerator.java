@@ -1,19 +1,23 @@
 package com.keaz.tool.apibuilder.classgenerator;
 
-import com.keaz.tool.apibuilder.apiobject.Attribute;
-import com.keaz.tool.apibuilder.apiobject.Resource;
+import com.keaz.tool.apibuilder.apiobject.*;
+import com.keaz.tool.apibuilder.language.LanguageTypes;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 public class ResourceGenerator extends AbstractClassGenerator<Resource> {
 
+    public ResourceGenerator(LanguageTypes languageTypes) {
+        super(languageTypes);
+    }
 
-    public void generate(File resourcePackage, Resource resource,PicoWriter topWriter){
+    public void generate(File resourcePackage, Resource resource, PicoWriter topWriter){
 
 
         createImports(topWriter,resource.getPackageName());
@@ -38,7 +42,7 @@ public class ResourceGenerator extends AbstractClassGenerator<Resource> {
 
         closeClass(topWriter);
 
-        writeToFile(resource.getName(),resourcePackage,topWriter.toString());
+
 
     }
 
@@ -68,4 +72,66 @@ public class ResourceGenerator extends AbstractClassGenerator<Resource> {
     private void createAttributes(PicoWriter attributeWriter,String name, String type){
         attributeWriter.writeln("private "+ type +" "+name +";");
     }
+
+
+    @Override
+    public String generate( String definitionName,String packageName, Definition definition,PicoWriter topWriter) {
+
+
+        createImports(topWriter,packageName);
+        createClassDefinition(topWriter,definitionName);
+
+        PicoWriter attributeWriter    = topWriter.createDeferredWriter();
+        PicoWriter methodWriter = topWriter.createDeferredWriter();
+
+        Map<String, Property> properties = definition.getProperties();
+        Set<String> propertyNames = properties.keySet();
+        for (String propertyName : propertyNames) {
+
+            Property property = properties.get(propertyName);
+            String ref = property.getRef();
+
+            if(Objects.nonNull(ref)){
+                String objectType = getObjectType(ref);
+                addProperty(propertyName,objectType,attributeWriter,methodWriter);
+                continue;
+            }
+
+            String type = property.getType();
+            if(type.equals("array")){
+                String languageType = getListType(property.getItems());
+                String languageReturnType = createReturnList(languageType);
+
+                addProperty(propertyName,languageReturnType,attributeWriter,methodWriter);
+                continue;
+            }
+
+            String format = property.getFormat();
+            String languageType = getType(type, format);
+            addProperty(propertyName,languageType,attributeWriter,methodWriter);
+
+        }
+
+        closeClass(topWriter);
+        return topWriter.toString();
+    }
+
+
+    private String createReturnList(String listType){
+        return "List<"+listType+">";
+
+    }
+
+
+    private void addProperty(String propertyName,String propertyType,PicoWriter attributeWriter,PicoWriter methodWriter){
+        createAttributes(attributeWriter,propertyName,propertyType);
+        createSetter(methodWriter,propertyName,propertyType);
+
+        createSetter(methodWriter,propertyName,propertyType);
+        methodWriter.writeln("");
+        createGetter(methodWriter,propertyName,propertyType);
+    }
+
+
+
 }

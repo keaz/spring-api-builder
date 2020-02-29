@@ -2,6 +2,7 @@ package com.keaz.tool.apibuilder.classgenerator.spring;
 
 import com.keaz.tool.apibuilder.apiobject.*;
 import com.keaz.tool.apibuilder.classgenerator.AbstractClassGenerator;
+import com.keaz.tool.apibuilder.language.LanguageTypes;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
 
-    private String [] returnColletion = {"LIST","SET"};
+
 
     enum ReturnValues {
         LIST("List"), SET("Set");
@@ -25,6 +26,10 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         public String toString() {
             return name;
         }
+    }
+
+    public ControllerGenerator(LanguageTypes languageTypes) {
+        super(languageTypes);
     }
 
     public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
@@ -44,7 +49,6 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
 
         closeClass(topWriter);
 
-        writeToFile(controller,resourcePackage,topWriter.toString() );
     }
 
 
@@ -115,4 +119,9 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         methodWriter.writeln(mappingBuilder.toString());
     }
 
+
+    @Override
+    public String generate( String definitionName, String packageName, Definition definition,PicoWriter topWriter) {
+        return  null;
+    }
 }

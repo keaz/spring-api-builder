@@ -2,14 +2,19 @@ package com.keaz.tool.apibuilder;
 
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
 import com.keaz.tool.apibuilder.apiobject.ApiObject;
+import com.keaz.tool.apibuilder.apiobject.Definition;
 import com.keaz.tool.apibuilder.classgenerator.ClassGenerator;
 import com.keaz.tool.apibuilder.classgenerator.spring.ControllerGenerator;
 import com.keaz.tool.apibuilder.classgenerator.ResourceGenerator;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class OutputGenerator {
 
@@ -39,10 +44,23 @@ public class OutputGenerator {
         }
         outFolder.mkdirs();
 
-        createClasses(resourceGenerator,apiDefinition.getResources());
-        createClasses(controllerGenerator,apiDefinition.getRootApis());
+        Map<String, Definition> definitions = apiDefinition.getDefinitions();
+        createDefinitions(definitions);
+//        createClasses(resourceGenerator,apiDefinition.getResources());
+//        createClasses(controllerGenerator,apiDefinition.getRootApis());
     }
 
+
+    private void createDefinitions(Map<String, Definition> definitions){
+        Set<String> definitionNames = definitions.keySet();
+        String packageName = "definitions";
+        File resourcePackage = createPackage(packageName);
+        for (String definitionName : definitionNames) {
+            Definition definition = definitions.get(definitionName);
+            String generatedClass = resourceGenerator.generate(definitionName, packageName, definition, new PicoWriter());
+            writeToFile(definitionName,resourcePackage,generatedClass);
+        }
+    }
 
     private void createClasses(ClassGenerator classGenerator,Collection<? extends ApiObject> apiObjects){
         for (ApiObject apiObject : apiObjects) {
@@ -59,6 +77,17 @@ public class OutputGenerator {
         }
         resourcePackage.mkdirs();
         return resourcePackage;
+    }
+
+    protected void writeToFile(String className, File resourcePackage, String classBody){
+        File javaFile = new File(resourcePackage, className + ".java");
+
+
+        try (FileWriter fileWriter = new FileWriter(javaFile);){
+            fileWriter.write(classBody);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

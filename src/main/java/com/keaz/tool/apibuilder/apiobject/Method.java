@@ -11,8 +11,6 @@ public class Method {
 
     private List<String> tags;
     private String summary;
-    @JsonProperty("x-swagger-router-controller")
-    private String xSwaggerRouterController;
     private String description;
     private String operationId;
     private List<String> consumes;

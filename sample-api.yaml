@@ -27,11 +27,11 @@ schemes:
   - http
 paths:
   /pet:
+    x-swagger-router-controller: SampleController
     post:
       tags:
         - pet
       summary: Add a new pet to the store
-      x-swagger-router-controller: SampleController
       description: ""
       operationId: addPet
       consumes:
@@ -257,11 +257,11 @@ paths:
             - "write:pets"
             - "read:pets"
   "/pet/{petId}/uploadImage":
+    x-swagger-router-controller: SampleController
     post:
       tags:
         - pet
       summary: uploads an image
-      x-swagger-router-controller: SampleController
       description: ""
       operationId: uploadFile
       consumes:

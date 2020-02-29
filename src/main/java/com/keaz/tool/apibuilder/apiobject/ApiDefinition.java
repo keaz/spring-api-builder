@@ -23,7 +23,7 @@ public class ApiDefinition {
     private Set<Tag> tags;
     private Set<Scheme> schemes;
     private SecurityDefinition securityDefinitions;
-    private Map<String,Object> definitions;
+    private Map<String,Definition> definitions;
     private ExternalDocs externalDocs;
 
 }

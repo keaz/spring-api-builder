@@ -25,7 +25,8 @@ public class Api {
     @JsonProperty("request_params")
     private Set<RequestParam> requestParams;
 
-
+    @JsonProperty("x-swagger-router-controller")
+    private String xSwaggerRouterController;
     private Method post;
     private Method put;
     private Method patch;
