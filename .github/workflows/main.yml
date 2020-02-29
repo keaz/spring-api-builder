@@ -1,0 +1,24 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v1.1  
+    - name: Run sonarqube
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: sonar-scanner
+           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+           -Dsonar.organization=kasun
+           -Dsonar.host.url=https://sonarcloud.io/
+           -Dsonar.projectKey=keaz_spring-api-builder
+      
