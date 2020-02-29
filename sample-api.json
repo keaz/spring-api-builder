@@ -1,7 +1,7 @@
 {
-  "resources":[
+  "resources": [
     {
-      "name" : "User",
+      "name": "User",
       "package": "com.kzone.controllers.dto",
       "attributes": [
         {
@@ -22,58 +22,58 @@
   "root_apis": [
     {
       "name": "user",
-      "package":"com.kzone.controllers",
+      "package": "com.kzone.controllers",
       "controller": "UserController",
       "apis": [
         {
-          "http_method" : "GET",
+          "http_method": "GET",
           "uri": "",
           "method": "getUsers",
           "response_body": "LIST:User"
         },
         {
-          "http_method" : "GET",
+          "http_method": "GET",
           "uri": "{id}",
           "method": "getUsersById",
           "response_body": "User",
-          "path_variables" : [
+          "path_variables": [
             {
-              "name":"id",
+              "name": "id",
               "type": "String"
             }
           ]
         },
         {
-          "http_method" : "POST",
+          "http_method": "POST",
           "uri": "",
           "method": "saveUser",
-          "request_body" : "User",
+          "request_body": "User",
           "response_body": "User"
         },
         {
-          "http_method" : "PUT",
+          "http_method": "PUT",
           "uri": "",
           "method": "updateUser",
-          "request_body" : "User",
+          "request_body": "User",
           "response_body": "User"
         },
         {
-          "http_method" : "DELETE",
+          "http_method": "DELETE",
           "uri": "{id}",
           "method": "deleteUser",
-          "path_variables" : [
+          "path_variables": [
             {
-              "name":"id",
+              "name": "id",
               "type": "String"
             }
           ]
         },
         {
-          "http_method" : "GET",
+          "http_method": "GET",
           "uri": "search",
           "method": "searchUsers",
           "response_body": "LIST:User",
-          "request_params" : [
+          "request_params": [
             {
               "name": "firstName",
               "type": "String"
@@ -83,5 +83,4 @@
       ]
     }
   ]
-
 }
