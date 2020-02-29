@@ -17,7 +17,7 @@
         <sonar.projectKey>keaz_spring-api-builder</sonar.projectKey>
         <sonar.organization>kasun</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.login>1445737cd63cc44476f34fe3b2ba654bedb5b358</sonar.login>
+        <sonar.login>0ee07dd40f89c47ee73952db7d2075b9200466fa</sonar.login>
     </properties>
 
     <dependencies>
