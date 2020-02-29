@@ -34,11 +34,6 @@ public class JavaTypes implements LanguageTypes {
         return jsonNode.path(type).path(format).asText();
     }
 
-    public String getListType(String type, String format) {
-        if(Objects.isNull(format)){
-            return jsonNode.path("array").path("items").path(type).path("").asText();
-        }
-        return jsonNode.path("array").path("items").path(type).path(format).asText();
-    }
+
 
 }

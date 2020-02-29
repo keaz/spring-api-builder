@@ -4,6 +4,4 @@ public interface LanguageTypes {
 
     String getType(String type, String format);
 
-    String getListType(String type, String format);
-
 }

@@ -49,18 +49,5 @@ public class JavaTypesTest {
         Assert.assertEquals("Date",actual);
     }
 
-    @Test
-    public void testGetJavaListDefaultType(){
-        javaTypes.init();
-        String actual = javaTypes.getListType("integer", null);
-        Assert.assertEquals("List<Integer>",actual);
-    }
-
-    @Test
-    public void testGetJavaListType(){
-        javaTypes.init();
-        String actual = javaTypes.getListType("integer", "int32");
-        Assert.assertEquals("List<Integer>",actual);
-    }
 
 }
