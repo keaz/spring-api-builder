@@ -2,11 +2,11 @@ package com.keaz.tool.apibuilder.apiobject;
 
 public enum Scheme {
 
-    http("http"),https("https");
+    http("http"), https("https");
 
     private final String springAnnotation;
 
-    Scheme(String springAnnotation){
+    Scheme(String springAnnotation) {
         this.springAnnotation = springAnnotation;
     }
 

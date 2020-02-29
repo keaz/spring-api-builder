@@ -1,4 +1,4 @@
-package com.keaz.tool.apibuilder.classgenerator.spring;
+package com.keaz.tool.apibuilder.classgenerator.java.spring;
 
 import com.keaz.tool.apibuilder.apiobject.*;
 import com.keaz.tool.apibuilder.classgenerator.AbstractClassGenerator;
@@ -12,47 +12,30 @@ import java.util.Set;
 public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
 
 
-
-    enum ReturnValues {
-        LIST("List"), SET("Set");
-
-        private String name;
-
-        ReturnValues(String name){
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
     public ControllerGenerator(LanguageTypes languageTypes) {
         super(languageTypes);
     }
 
-    public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
+    public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter) {
 
         String controller = rootApi.getController();
 
-        createImports(topWriter,rootApi.getPackageName());
-        createClassDefinition(topWriter,rootApi.getName(),controller);
+        createImports(topWriter, rootApi.getPackageName());
+        createClassDefinition(topWriter, rootApi.getName(), controller);
 
         PicoWriter methodWriter = topWriter.createDeferredWriter();
         Set<Api> apis = rootApi.getApis();
 
         for (Api api : apis) {
-            buildMethodAnnotations(methodWriter,api.getHttpMethod(),api.getUri());
-            createMethod(methodWriter,api.getMethod(),api.getRequestBody(),api.getResponseBody(),api.getPathVariables(),api.getRequestParams());
+            buildMethodAnnotations(methodWriter, api.getHttpMethod(), api.getUri());
+            createMethod(methodWriter, api.getMethod(), api.getRequestBody(), api.getResponseBody(), api.getPathVariables(), api.getRequestParams());
         }
 
         closeClass(topWriter);
 
     }
 
-
-    private void createImports(PicoWriter topWriter, String packageName){
+    private void createImports(PicoWriter topWriter, String packageName) {
         topWriter.writeln("package " + packageName + ";");
         topWriter.writeln("");
 
@@ -64,64 +47,79 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         topWriter.writeln("");
     }
 
-    private void createClassDefinition(PicoWriter topWriter, String name, String controller){
-        topWriter.writeln("@RequestMapping(\""+name+"\")");
+    private void createClassDefinition(PicoWriter topWriter, String name, String controller) {
+        topWriter.writeln("@RequestMapping(\"" + name + "\")");
         topWriter.writeln("@RestController");
-        topWriter.writeln_r("public class "+controller+" {");
+        topWriter.writeln_r("public class " + controller + " {");
         topWriter.writeln("");
     }
 
-    private void createMethod(PicoWriter methodWriter, String method, String requestBody, String responseBody, Set<PathVariable> pathVariables, Set<RequestParam> requestParams){
+    private void createMethod(PicoWriter methodWriter, String method, String requestBody, String responseBody, Set<PathVariable> pathVariables, Set<RequestParam> requestParams) {
 
         StringBuilder methodBuilder = new StringBuilder("public ");
-        if(Objects.isNull(responseBody)){
+        if (Objects.isNull(responseBody)) {
             methodBuilder.append("void ").append(method);
-        }else{
-            if(responseBody.indexOf(':') > 0){
-                String [] splits = responseBody.split(":");
+        } else {
+            if (responseBody.indexOf(':') > 0) {
+                String[] splits = responseBody.split(":");
                 ReturnValues returnValue = ReturnValues.valueOf(splits[0]);
                 methodBuilder.append(returnValue).append("<").append(splits[1]).append("> ").append(method);
-            }else {
+            } else {
                 methodBuilder.append(responseBody + " ").append(method);
             }
         }
 
-        if(Objects.isNull(requestBody)){
+        if (Objects.isNull(requestBody)) {
             methodBuilder.append("(");
-        }else{
-            methodBuilder.append("("+requestBody +" "+requestBody.substring(0, 1).toLowerCase() + requestBody.substring(1) + " ");
+        } else {
+            methodBuilder.append("(" + requestBody + " " + requestBody.substring(0, 1).toLowerCase() + requestBody.substring(1) + " ");
         }
 
-        createAdditionalParam(methodBuilder,pathVariables);
-        createAdditionalParam(methodBuilder,requestParams);
+        createAdditionalParam(methodBuilder, pathVariables);
+        createAdditionalParam(methodBuilder, requestParams);
 
         methodBuilder.append("){");
         methodWriter.writeln_r(methodBuilder.toString());
         methodWriter.writeln_l("}");
     }
 
-    private void createAdditionalParam(StringBuilder methodBuilder, Set<? extends Param> params){
-        if(!Objects.isNull(params) && !params.isEmpty()){
+    private void createAdditionalParam(StringBuilder methodBuilder, Set<? extends Param> params) {
+        if (!Objects.isNull(params) && !params.isEmpty()) {
             for (Param param : params) {
                 methodBuilder.append(param);
             }
         }
     }
 
-    private void buildMethodAnnotations(PicoWriter methodWriter, HttpMethod httpMethod, String uri ){
+    private void buildMethodAnnotations(PicoWriter methodWriter, HttpMethod httpMethod, String uri) {
         methodWriter.writeln("");
         StringBuilder mappingBuilder = new StringBuilder();
         mappingBuilder.append(httpMethod);
-        if(!Objects.isNull(uri) && !uri.isEmpty()){
+        if (!Objects.isNull(uri) && !uri.isEmpty()) {
             mappingBuilder.append("(\"").append(uri).append("\")");
         }
 
         methodWriter.writeln(mappingBuilder.toString());
     }
 
-
     @Override
-    public String generate( String definitionName, String packageName, Definition definition,PicoWriter topWriter) {
-        return  null;
+    public String generate(String definitionName, String packageName, Definition definition, PicoWriter topWriter) {
+        return null;
+    }
+
+
+    enum ReturnValues {
+        LIST("List"), SET("Set");
+
+        private String name;
+
+        ReturnValues(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }

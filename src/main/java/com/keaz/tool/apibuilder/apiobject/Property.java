@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 public class Property {
 
-    private static final String [] JAVA_PROPERTY_TYPES = {};
+    private static final String[] JAVA_PROPERTY_TYPES = {};
 
     private String type;
     private String format;
@@ -19,7 +19,7 @@ public class Property {
     private List<String> enums;
     @JsonProperty("$ref")
     private String ref;
-    private Map<String,String> xml;
+    private Map<String, String> xml;
     private Item items;
 
 

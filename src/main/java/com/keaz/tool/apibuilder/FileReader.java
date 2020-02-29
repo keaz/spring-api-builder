@@ -10,14 +10,14 @@ import java.util.Objects;
 public class FileReader {
 
 
-    private final ObjectMapper  objectMapper;
+    private final ObjectMapper objectMapper;
 
     public FileReader(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public ApiDefinition readFile(String jsonFile){
-        if(Objects.isNull(jsonFile) || jsonFile.isBlank()){
+    public ApiDefinition readFile(String jsonFile) {
+        if (Objects.isNull(jsonFile) || jsonFile.isBlank()) {
             throw new IllegalArgumentException("Json file cannot be null or empty");
         }
         try {

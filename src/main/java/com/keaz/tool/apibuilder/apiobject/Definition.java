@@ -9,8 +9,8 @@ import java.util.Set;
 public class Definition {
 
 
-    private Map<String,Property> properties;
-    private Map<String,Object> xml;
+    private Map<String, Property> properties;
+    private Map<String, Object> xml;
     private Set<String> required;
 
 }

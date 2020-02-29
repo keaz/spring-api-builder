@@ -10,6 +10,6 @@ public class PetstoreAuth {
     private String type;
     private String authorizationUrl;
     private String flow;
-    private Map<String,String> scopes;
+    private Map<String, String> scopes;
 
 }

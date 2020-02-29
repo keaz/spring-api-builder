@@ -13,7 +13,7 @@ public class ResponseBody {
     private Integer minimum;
     @JsonProperty("$ref")
     private String ref;
-    private Map<String,Map<String,Object>> properties;
-    private Map<String,String> items;
+    private Map<String, Map<String, Object>> properties;
+    private Map<String, String> items;
 
 }

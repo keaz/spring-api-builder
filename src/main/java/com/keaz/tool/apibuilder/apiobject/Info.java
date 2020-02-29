@@ -11,7 +11,7 @@ public class Info {
     private String version;
     private String title;
     private String termsOfService;
-    private Map<String,String> contact;
+    private Map<String, String> contact;
     private License license;
 
 }

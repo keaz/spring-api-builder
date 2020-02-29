@@ -2,12 +2,12 @@ package com.keaz.tool.apibuilder.apiobject;
 
 public enum HttpMethod {
 
-    GET("@GetMapping"),POST("@PostMapping"),PUT("@PutMapping"),
+    GET("@GetMapping"), POST("@PostMapping"), PUT("@PutMapping"),
     DELETE("@DeleteMapping");
 
     private final String springAnnotation;
 
-    HttpMethod(String springAnnotation){
+    HttpMethod(String springAnnotation) {
         this.springAnnotation = springAnnotation;
     }
 

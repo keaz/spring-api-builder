@@ -1,6 +1,5 @@
 package com.keaz.tool.apibuilder.apiobject;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -16,6 +15,6 @@ public class Method {
     private List<String> consumes;
     private List<String> produces;
     private List<Parameter> parameters;
-    private Map<String,Object> responses;
+    private Map<String, Object> responses;
     private List<Object> security;
 }

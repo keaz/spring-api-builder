@@ -17,7 +17,7 @@ public class Parameter {
     private String type;
     private String format;
     private ResponseBody schema;
-    private Map<String,Object> items;
+    private Map<String, Object> items;
     private String collectionFormat;
     @JsonProperty("default")
     private String defaults;

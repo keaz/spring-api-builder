@@ -5,12 +5,9 @@ import com.keaz.tool.apibuilder.apiobject.Item;
 import com.keaz.tool.apibuilder.language.LanguageTypes;
 import org.ainslec.picocog.PicoWriter;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Objects;
 
-public abstract class AbstractClassGenerator<T extends ApiObject> implements ClassGenerator<T>{
+public abstract class AbstractClassGenerator<T extends ApiObject> implements ClassGenerator<T> {
 
     protected final LanguageTypes languageTypes;
 
@@ -19,34 +16,33 @@ public abstract class AbstractClassGenerator<T extends ApiObject> implements Cla
     }
 
 
-    protected void closeClass(PicoWriter topWriter){
+    protected void closeClass(PicoWriter topWriter) {
         topWriter.writeln("");
         topWriter.writeln_l("}");
     }
 
 
-
-    protected String getListType(Item items){
+    protected String getListType(Item items) {
         String ref = items.getRef();
 
-        if(Objects.nonNull(ref)){
+        if (Objects.nonNull(ref)) {
             return getObjectType(ref);
         }
 
-        return getType(items.getType(),items.getFormat());
+        return getType(items.getType(), items.getFormat());
 
     }
 
-    protected String getType(String type,String format){
-        return languageTypes.getType(type,format);
+    protected String getType(String type, String format) {
+        return languageTypes.getType(type, format);
     }
 
-    protected String getObjectType(String ref){
+    protected String getObjectType(String ref) {
         String[] split = ref.split("/");
-        if(Objects.isNull(ref)){
+        if (Objects.isNull(ref)) {
             throw new RuntimeException();
         }
-        return split[split.length -1];
+        return split[split.length - 1];
     }
 
 }

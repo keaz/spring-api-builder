@@ -9,6 +9,6 @@ public class Tag {
 
     private String name;
     private String description;
-    private Map<String,String> externalDocs;
+    private Map<String, String> externalDocs;
 
 }

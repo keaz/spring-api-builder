@@ -10,6 +10,6 @@ public class PathVariable extends Param {
 
     @Override
     public String toString() {
-        return "@PathVariable(\""+name+"\")"+" "+type+" "+name+" ";
+        return "@PathVariable(\"" + name + "\")" + " " + type + " " + name + " ";
     }
 }

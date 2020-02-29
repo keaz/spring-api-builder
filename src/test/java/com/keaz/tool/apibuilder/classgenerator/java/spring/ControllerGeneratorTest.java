@@ -1,4 +1,4 @@
-package com.keaz.tool.apibuilder.classgenerator.spring;
+package com.keaz.tool.apibuilder.classgenerator.java.spring;
 
 import com.keaz.tool.apibuilder.apiobject.Api;
 import com.keaz.tool.apibuilder.apiobject.HttpMethod;
@@ -20,11 +20,9 @@ import java.util.Collections;
 public class ControllerGeneratorTest {
 
 
-    private RootApi rootApi;
-
     @Spy
     PicoWriter topWriter; // createDeferredWriter is final we cannot mock that
-
+    private RootApi rootApi;
     private File resourcePackage;
 
     @InjectMocks
@@ -55,33 +53,33 @@ public class ControllerGeneratorTest {
 
     @After
     public void afterTest() {
-        new File(resourcePackage,"Test.java").delete();
+        new File(resourcePackage, "Test.java").delete();
         resourcePackage.delete();
     }
 
 
     @Test
-    public void testGenerateWithoutResponseBody(){
-        controllerGenerator.generate(resourcePackage,rootApi,topWriter);
+    public void testGenerateWithoutResponseBody() {
+        controllerGenerator.generate(resourcePackage, rootApi, topWriter);
     }
 
     @Test
-    public void testGenerateWithResponseBody(){
+    public void testGenerateWithResponseBody() {
         rootApi.getApis().iterator().next().setResponseBody("Test");
-        controllerGenerator.generate(resourcePackage,rootApi,topWriter);
+        controllerGenerator.generate(resourcePackage, rootApi, topWriter);
     }
 
     @Test
-    public void testGenerateWithListResponseBody(){
+    public void testGenerateWithListResponseBody() {
         rootApi.getApis().iterator().next().setResponseBody("LIST:Test");
-        controllerGenerator.generate(resourcePackage,rootApi,topWriter);
+        controllerGenerator.generate(resourcePackage, rootApi, topWriter);
     }
 
 
     @Test
-    public void testGenerateWithoutRequestBody(){
+    public void testGenerateWithoutRequestBody() {
         rootApi.getApis().iterator().next().setRequestBody(null);
-        controllerGenerator.generate(resourcePackage,rootApi,topWriter);
+        controllerGenerator.generate(resourcePackage, rootApi, topWriter);
     }
 
 }
