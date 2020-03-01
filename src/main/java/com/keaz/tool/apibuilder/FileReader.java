@@ -2,6 +2,7 @@ package com.keaz.tool.apibuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
+import com.keaz.tool.exception.ApiBuilderException;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class FileReader {
         try {
             return objectMapper.readValue(new File(jsonFile), ApiDefinition.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ApiBuilderException("Failed to read file "+jsonFile,e);
         }
     }
 }

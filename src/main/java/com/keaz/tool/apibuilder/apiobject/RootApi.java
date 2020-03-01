@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = "apis")
-public class RootApi extends ApiObject {
+public class RootApi implements ApiObject {
 
     private String name;
     @JsonProperty("package")

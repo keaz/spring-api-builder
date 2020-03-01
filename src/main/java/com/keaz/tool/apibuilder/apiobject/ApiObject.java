@@ -1,7 +1,7 @@
 package com.keaz.tool.apibuilder.apiobject;
 
-public abstract class ApiObject {
+public interface ApiObject {
 
-    public abstract String getPackageName();
+    String getPackageName();
 
 }

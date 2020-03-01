@@ -1,11 +1,12 @@
 package com.keaz.tool.apibuilder.classgenerator.java.spring;
 
-import com.keaz.tool.apibuilder.apiobject.Api;
-import com.keaz.tool.apibuilder.apiobject.HttpMethod;
-import com.keaz.tool.apibuilder.apiobject.PathVariable;
-import com.keaz.tool.apibuilder.apiobject.RootApi;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.keaz.tool.apibuilder.FileReader;
+import com.keaz.tool.apibuilder.apiobject.*;
 import org.ainslec.picocog.PicoWriter;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ControllerGeneratorTest {
@@ -82,4 +85,15 @@ public class ControllerGeneratorTest {
         controllerGenerator.generate(resourcePackage, rootApi, topWriter);
     }
 
+
+    //groupApisStartWithSameRoot
+
+    @Test
+    public void testGroupApisStartWithSameRoot() {
+
+        ApiDefinition apiDefinition = new FileReader(new ObjectMapper(new YAMLFactory())).readFile("sample-api.yaml");
+        apiDefinition.getPaths();
+        Map<String, List<String>> stringListMap = controllerGenerator.groupApisStartWithSameRoot(apiDefinition.getPaths());
+        Assert.assertEquals(3,stringListMap.size());
+    }
 }

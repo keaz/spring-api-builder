@@ -2,6 +2,7 @@ package com.keaz.tool.apibuilder.language;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keaz.tool.exception.ApiBuilderException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class Java implements LanguageTypes {
         try {
             jsonNode = objectMapper.readTree(resource);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ApiBuilderException("Cannot Read "+JAVA_TYPE_FILE,e);
         }
     }
 

@@ -4,7 +4,7 @@ import com.keaz.tool.apibuilder.apiobject.Attribute;
 import com.keaz.tool.apibuilder.apiobject.Definition;
 import com.keaz.tool.apibuilder.apiobject.Property;
 import com.keaz.tool.apibuilder.apiobject.Resource;
-import com.keaz.tool.apibuilder.classgenerator.AbstractClassGenerator;
+import com.keaz.tool.apibuilder.classgenerator.AbstractDefinitionGenerator;
 import com.keaz.tool.apibuilder.language.LanguageTypes;
 import org.ainslec.picocog.PicoWriter;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class DefinitionGenerator extends AbstractClassGenerator<Resource> {
+public class DefinitionGenerator extends AbstractDefinitionGenerator<Resource> {
 
     public DefinitionGenerator(LanguageTypes languageTypes) {
         super(languageTypes);

@@ -1,9 +1,10 @@
 package com.keaz.tool.apibuilder;
 
+import com.keaz.tool.apibuilder.apiobject.Api;
 import com.keaz.tool.apibuilder.apiobject.ApiDefinition;
 import com.keaz.tool.apibuilder.apiobject.ApiObject;
 import com.keaz.tool.apibuilder.apiobject.Definition;
-import com.keaz.tool.apibuilder.classgenerator.ClassGenerator;
+import com.keaz.tool.apibuilder.classgenerator.DefinitionGenerator;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
@@ -18,10 +19,10 @@ public class OutputGenerator {
 
     private final File outFolder;
     private final ApiDefinition apiDefinition;
-    private final ClassGenerator resourceGenerator;
-    private final ClassGenerator controllerGenerator;
+    private final DefinitionGenerator resourceGenerator;
+    private final DefinitionGenerator controllerGenerator;
 
-    public OutputGenerator(File outFolder, ApiDefinition apiDefinition, ClassGenerator definitionGenerator, ClassGenerator controllerGenerator) {
+    public OutputGenerator(File outFolder, ApiDefinition apiDefinition, DefinitionGenerator definitionGenerator, DefinitionGenerator controllerGenerator) {
         this.outFolder = outFolder;
         this.apiDefinition = apiDefinition;
         this.resourceGenerator = definitionGenerator;
@@ -44,6 +45,7 @@ public class OutputGenerator {
 
         Map<String, Definition> definitions = apiDefinition.getDefinitions();
         createDefinitions(definitions);
+        Map<String, Api> paths = apiDefinition.getPaths();
 //        createClasses(resourceGenerator,apiDefinition.getResources());
 //        createClasses(controllerGenerator,apiDefinition.getRootApis());
     }
@@ -60,10 +62,10 @@ public class OutputGenerator {
         }
     }
 
-    private void createClasses(ClassGenerator classGenerator, Collection<? extends ApiObject> apiObjects) {
+    private void createClasses(DefinitionGenerator definitionGenerator, Collection<? extends ApiObject> apiObjects) {
         for (ApiObject apiObject : apiObjects) {
             File resourcePackage = createPackage(apiObject.getPackageName());
-            classGenerator.generate(resourcePackage, apiObject, new PicoWriter());
+            definitionGenerator.generate(resourcePackage, apiObject, new PicoWriter());
         }
     }
 

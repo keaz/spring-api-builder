@@ -6,7 +6,7 @@ import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
 
-public interface ClassGenerator<T extends ApiObject> {
+public interface DefinitionGenerator<T extends ApiObject> {
 
     void generate(File resourcePackage, T resource, PicoWriter topWriter);
 

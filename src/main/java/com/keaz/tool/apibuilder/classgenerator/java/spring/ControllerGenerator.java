@@ -1,15 +1,16 @@
 package com.keaz.tool.apibuilder.classgenerator.java.spring;
 
 import com.keaz.tool.apibuilder.apiobject.*;
-import com.keaz.tool.apibuilder.classgenerator.AbstractClassGenerator;
+import com.keaz.tool.apibuilder.classgenerator.AbstractDefinitionGenerator;
 import com.keaz.tool.apibuilder.language.LanguageTypes;
 import org.ainslec.picocog.PicoWriter;
 
 import java.io.File;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
+public class ControllerGenerator extends AbstractDefinitionGenerator<RootApi> {
 
 
     public ControllerGenerator(LanguageTypes languageTypes) {
@@ -60,7 +61,7 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         if (Objects.isNull(responseBody)) {
             methodBuilder.append("void ").append(method);
         } else {
-            if (responseBody.indexOf(':') > 0) {
+            if (responseBody.indexOf(':') != -1) {
                 String[] splits = responseBody.split(":");
                 ReturnValues returnValue = ReturnValues.valueOf(splits[0]);
                 methodBuilder.append(returnValue).append("<").append(splits[1]).append("> ").append(method);
@@ -107,6 +108,45 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         return null;
     }
 
+
+    public String generate(Map<String, Api> paths,PicoWriter topWriter){
+
+        /**group all apis start with same root
+            then group them by x-swagger-router-controller
+                put all apis to grouped controller
+         **/
+        groupApisStartWithSameRoot(paths);
+
+        return null;
+    }
+
+    /**
+     * Group all the apis under same root api,
+     * @param paths Map of api paths
+     * @return API paths grouped under root apis
+     */
+    public Map<String, List<String>> groupApisStartWithSameRoot(Map<String, Api> paths){
+        Set<String> rootPaths = paths.keySet();
+
+        Pattern pattern = Pattern.compile("\\/(.*?)\\/");
+        Map<String, List<String>> sameApiRoot = new HashMap<>();
+        for (String rootPath : rootPaths) {
+            Matcher matcher = pattern.matcher(rootPath);
+            if(matcher.find()){
+                String group = matcher.group(0);
+                if(sameApiRoot.containsKey(group)){
+                    sameApiRoot.get(group).add(rootPath);
+                    continue;
+                }
+
+                List<String> apis = new LinkedList<>();
+                apis.add(rootPath);
+                sameApiRoot.put(group,apis);
+            }
+        }
+
+        return sameApiRoot;
+    }
 
     enum ReturnValues {
         LIST("List"), SET("Set");

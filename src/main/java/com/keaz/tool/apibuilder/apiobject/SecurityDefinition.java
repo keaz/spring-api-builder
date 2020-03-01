@@ -6,9 +6,8 @@ import lombok.Data;
 @Data
 public class SecurityDefinition {
 
-
-    private String petstoreAuth;
-    private PetstoreAuth petstore_auth;
+    @JsonProperty("petstore_auth")
+    private PetstoreAuth petstoreAuth;
     @JsonProperty("api_key")
     private ApiKey apiKey;
 

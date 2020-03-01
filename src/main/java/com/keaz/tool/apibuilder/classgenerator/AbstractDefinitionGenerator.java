@@ -7,11 +7,11 @@ import org.ainslec.picocog.PicoWriter;
 
 import java.util.Objects;
 
-public abstract class AbstractClassGenerator<T extends ApiObject> implements ClassGenerator<T> {
+public abstract class AbstractDefinitionGenerator<T extends ApiObject> implements DefinitionGenerator<T> {
 
     protected final LanguageTypes languageTypes;
 
-    public AbstractClassGenerator(LanguageTypes languageTypes) {
+    public AbstractDefinitionGenerator(LanguageTypes languageTypes) {
         this.languageTypes = languageTypes;
     }
 
@@ -39,9 +39,6 @@ public abstract class AbstractClassGenerator<T extends ApiObject> implements Cla
 
     protected String getObjectType(String ref) {
         String[] split = ref.split("/");
-        if (Objects.isNull(ref)) {
-            throw new RuntimeException();
-        }
         return split[split.length - 1];
     }
 
