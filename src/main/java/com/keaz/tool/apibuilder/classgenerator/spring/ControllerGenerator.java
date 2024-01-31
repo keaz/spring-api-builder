@@ -26,12 +26,12 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
             return name;
         }
     }
-public void generate(File resourcePackage, RootApi rootApi, PicoWriter top_Writer){
+    public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
 
 String controller = rootApi.getController();
 
-        createImports(top_Writer,rootApi.getPackageName());
-        createClassDefinition(top_Writer,rootApi.getName(),controller);
+        createImports(topWriter,rootApi.getPackageName());
+        createClassDefinition(topWriter,rootApi.getName(),controller);
 
         PicoWriter methodWriter = topWriter.createDeferredWriter();
         Set<Api> apis = rootApi.getApis();
@@ -41,9 +41,9 @@ String controller = rootApi.getController();
             createMethod(methodWriter,api.getMethod(),api.getRequestBody(),api.getResponseBody(),api.getPathVariables(),api.getRequestParams());
         }
 
-        closeClass(top_Writer);
+        closeClass(topWriter);
 
-        writeToFile(controller,resourcePackage,top_Writer.toString() );
+        writeToFile(controller,resourcePackage,topWriter.toString() );
     }
 
 
