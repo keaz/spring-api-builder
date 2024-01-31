@@ -12,6 +12,6 @@ jobs:
       uses: nikitasavinov/checkstyle-action@master
       with:
         reporter: 'github-pr-check'
-        tool_name: 'testtool'
+        tool_name: 'reviewdog'
         fail_on_error: true
 
