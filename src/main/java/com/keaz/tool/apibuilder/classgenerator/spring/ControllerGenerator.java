@@ -27,14 +27,14 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
         }
     }
 
-    public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
+    public void generate(File resourcePackage, RootApi rootApi, PicoWriter top_Writer){
 
         String controller = rootApi.getController();
 
-        createImports(topWriter,rootApi.getPackageName());
-        createClassDefinition(topWriter,rootApi.getName(),controller);
+        createImports(top_Writer,rootApi.getPackageName());
+        createClassDefinition(top_Writer,rootApi.getName(),controller);
 
-        PicoWriter methodWriter = topWriter.createDeferredWriter();
+        PicoWriter methodWriter = top_Writer.createDeferredWriter();
         Set<Api> apis = rootApi.getApis();
 
         for (Api api : apis) {
@@ -42,29 +42,29 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
             createMethod(methodWriter,api.getMethod(),api.getRequestBody(),api.getResponseBody(),api.getPathVariables(),api.getRequestParams());
         }
 
-        closeClass(topWriter);
+        closeClass(top_Writer);
 
-        writeToFile(controller,resourcePackage,topWriter.toString() );
+        writeToFile(controller,resourcePackage,top_Writer.toString() );
     }
 
 
-    private void createImports(PicoWriter topWriter, String packageName){
-        topWriter.writeln("package " + packageName + ";");
-        topWriter.writeln("");
+    private void createImports(PicoWriter top_Writer, String packageName){
+        top_Writer.writeln("package " + packageName + ";");
+        top_Writer.writeln("");
 
-        topWriter.writeln("import org.springframework.beans.factory.annotation.Autowired;");
-        topWriter.writeln("import org.springframework.http.ResponseEntity;");
-        topWriter.writeln("import org.springframework.web.bind.annotation.*;");
+        top_Writer.writeln("import org.springframework.beans.factory.annotation.Autowired;");
+        top_Writer.writeln("import org.springframework.http.ResponseEntity;");
+        top_Writer.writeln("import org.springframework.web.bind.annotation.*;");
 
-        topWriter.writeln("import java.util.*;");
-        topWriter.writeln("");
+        top_Writer.writeln("import java.util.*;");
+        top_Writer.writeln("");
     }
 
-    private void createClassDefinition(PicoWriter topWriter, String name, String controller){
-        topWriter.writeln("@RequestMapping(\""+name+"\")");
-        topWriter.writeln("@RestController");
-        topWriter.writeln_r("public class "+controller+" {");
-        topWriter.writeln("");
+    private void createClassDefinition(PicoWriter top_Writer, String name, String controller){
+        top_Writer.writeln("@RequestMapping(\""+name+"\")");
+        top_Writer.writeln("@RestController");
+        top_Writer.writeln_r("public class "+controller+" {");
+        top_Writer.writeln("");
     }
 
     private void createMethod(PicoWriter methodWriter, String method, String requestBody, String responseBody, Set<PathVariable> pathVariables, Set<RequestParam> requestParams){
