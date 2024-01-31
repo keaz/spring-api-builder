@@ -3,16 +3,20 @@ on: pull_request
 
 jobs:
   checkstyle_job:
+
     runs-on: ubuntu-latest
-    name: Checkstyle job
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Run check style
-      uses: nikitasavinov/checkstyle-action@master
+    - uses: actions/checkout@v3
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: 'github-pr-check'
-        tool_name: 'reviewdog'
-
-
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+    - name: Download checkstyle
+      run: curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.13.0/checkstyle-10.13.0-all.jar
+    - name: Install ReviewDog
+      run: wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v0.14.0
+    - name: Run Review Dog
+      run:  java -jar /checkstyle.jar -c /google_checks.xml -f xml . | reviewdog -f=checkstyle -name=reviewdog  -reporter=github-pr-review -filter-mode="${INPUT_FILTER_MODE:-added}" -fail-on-error="${INPUT_FAIL_ON_ERROR:-false}"
