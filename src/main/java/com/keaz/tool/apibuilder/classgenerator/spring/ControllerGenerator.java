@@ -13,9 +13,9 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
     private String [] returnColletion = {"LIST","SET"};
 
     enum ReturnValues {
-        LIST("List"), SET("Set");
+          LIST("List"), SET("Set");
 
-        private String name;
+                        private String name;
 
         ReturnValues(String name){
             this.name = name;
@@ -26,13 +26,12 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
             return name;
         }
     }
+public void generate(File resourcePackage, RootApi rootApi, PicoWriter top_Writer){
 
-    public void generate(File resourcePackage, RootApi rootApi, PicoWriter topWriter){
+String controller = rootApi.getController();
 
-        String controller = rootApi.getController();
-
-        createImports(topWriter,rootApi.getPackageName());
-        createClassDefinition(topWriter,rootApi.getName(),controller);
+        createImports(top_Writer,rootApi.getPackageName());
+        createClassDefinition(top_Writer,rootApi.getName(),controller);
 
         PicoWriter methodWriter = topWriter.createDeferredWriter();
         Set<Api> apis = rootApi.getApis();
@@ -42,9 +41,9 @@ public class ControllerGenerator extends AbstractClassGenerator<RootApi> {
             createMethod(methodWriter,api.getMethod(),api.getRequestBody(),api.getResponseBody(),api.getPathVariables(),api.getRequestParams());
         }
 
-        closeClass(topWriter);
+        closeClass(top_Writer);
 
-        writeToFile(controller,resourcePackage,topWriter.toString() );
+        writeToFile(controller,resourcePackage,top_Writer.toString() );
     }
 
 
