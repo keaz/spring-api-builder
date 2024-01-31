@@ -1,3 +1,4 @@
+name: CheckStyle
 on: pull_request
 
 jobs:
@@ -13,3 +14,4 @@ jobs:
         reporter: 'github-pr-check'
         tool_name: 'testtool'
         fail_on_error: true
+
