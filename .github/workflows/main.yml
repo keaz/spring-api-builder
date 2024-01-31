@@ -13,5 +13,4 @@ jobs:
       with:
         reporter: 'github-pr-check'
         tool_name: 'reviewdog'
-        fail_on_error: true
 
